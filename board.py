@@ -35,5 +35,3 @@ while (count < 10):
         buttons[a][b]["content"] = -1;
         count += 1
 
-# Start main loop
-window.mainloop()
