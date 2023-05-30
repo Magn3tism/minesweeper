@@ -3,15 +3,13 @@ import ttkbootstrap as ttk
 import random
 
 from config import buttons
+import game_logic
 
 window = ttk.Window(themename="flatly")
 window.title("Minesweeper")
 
 container = ttk.Frame(master=window)
 container.pack(padx=5, pady=5)
-
-def clicked_index(i, j):
-    print(buttons[i][j]["content"].get())
 
 def countMines(lst):
     count = 0
@@ -43,10 +41,11 @@ for i in range(13):
         buttons[i][j]["button"] = ttk.Button(
             master=row_frame, bootstyle="primary-outline", 
             textvariable=buttons[i][j]["content"],
-            command=lambda i=i, j=j: clicked_index(i, j))
+            command=lambda i=i, j=j: game_logic.left_click(i, j))
         
-        buttons[i][j]["button"].grid(ipadx=15, ipady=10, row=i, column=j)
+        buttons[i][j]["button"].bind("<Button-3>", lambda event, i=i, j=j: game_logic.right_click(i, j))
 
+        buttons[i][j]["button"].grid(ipadx=15, ipady=10, row=i, column=j)
 
 count = 0;
 while (count < 10):
