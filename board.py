@@ -27,7 +27,7 @@ def get_surrounding_values(matrix, row, col):
     for i in range(max(0, row - 1), min(row + 2, rows)):
         for j in range(max(0, col - 1), min(col + 2, cols)):
             if i != row or j != col:
-                surrounding_values.append(matrix[i][j]["content"].get())
+                surrounding_values.append(matrix[i][j]["content"])
     
     return surrounding_values
 
@@ -36,16 +36,13 @@ for i in range(13):
     row_frame.grid()
 
     for j in range(6):
-        buttons[i][j]["content"] = tk.IntVar()
-
         buttons[i][j]["button"] = ttk.Button(
-            master=row_frame, bootstyle="primary-outline", 
-            textvariable=buttons[i][j]["content"],
+            master=row_frame, bootstyle="primary-outline", width=5,
             command=lambda i=i, j=j: game_logic.left_click(i, j))
         
         buttons[i][j]["button"].bind("<Button-3>", lambda event, i=i, j=j: game_logic.right_click(i, j))
 
-        buttons[i][j]["button"].grid(ipadx=15, ipady=10, row=i, column=j)
+        buttons[i][j]["button"].grid(ipady=10, row=i, column=j)
 
 count = 0;
 while (count < 10):
@@ -53,15 +50,15 @@ while (count < 10):
     b = random.randint(0, 5)
     
     if (buttons[a][b]["content"] != -1 and (-1 not in get_surrounding_values(buttons, a, b) or random.randint(0, 1))):
-        buttons[a][b]["content"].set(-1);
+        buttons[a][b]["content"] = -1;
         count += 1
 
 for i, arr in enumerate(buttons):
     for j, btn in enumerate(arr):
-        if (btn["content"].get() == -1):
+        if (btn["content"] == -1):
             continue
 
         subArray = get_surrounding_values(buttons, i, j)
 
-        btn["content"].set(countMines(subArray))
+        btn["content"] = countMines(subArray)
 
