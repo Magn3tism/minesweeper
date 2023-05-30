@@ -20,6 +20,19 @@ def countMines(lst):
             count = count + 1
     return count
 
+def get_surrounding_values(matrix, row, col):
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    surrounding_values = []
+    
+    for i in range(max(0, row - 1), min(row + 2, rows)):
+        for j in range(max(0, col - 1), min(col + 2, cols)):
+            if i != row or j != col:
+                surrounding_values.append(matrix[i][j]["content"].get())
+    
+    return surrounding_values
+
 for i in range(13):
     row_frame = ttk.Frame(master=container)
     row_frame.grid()
@@ -40,19 +53,16 @@ while (count < 10):
     a = random.randint(0, 12)
     b = random.randint(0, 5)
     
-    if (buttons[a][b]["content"] != -1):
+    if (buttons[a][b]["content"] != -1 and (-1 not in get_surrounding_values(buttons, a, b) or random.randint(0, 1))):
         buttons[a][b]["content"].set(-1);
         count += 1
 
 for i, arr in enumerate(buttons):
     for j, btn in enumerate(arr):
-        if (btn["content"].get() == -1 or i == 0 or i == 12 or j == 0 or j == 5):
+        if (btn["content"].get() == -1):
             continue
-        
-        subArray = []
-        for k in range(i - 1, i + 2):
-            for l in range(j - 1, j + 2):
-                subArray.append(buttons[k][l]["content"].get())
+
+        subArray = get_surrounding_values(buttons, i, j)
 
         btn["content"].set(countMines(subArray))
 
