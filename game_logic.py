@@ -22,6 +22,9 @@ def click_number():
 
 def left_click(i, j):
     value = buttons[i][j]["content"]
+    if (value == -2):
+        return
+
     if (value >= 0):
         image = ImageTk.PhotoImage(Image.open(f"./images/{value}.png"))
         click_number()
@@ -34,4 +37,12 @@ def left_click(i, j):
 
 
 def right_click(i, j):
-    buttons[i][j]["button"].configure(bootstyle="dark")
+    if (buttons[i][j]["content"] == -2):
+        buttons[i][j]["button"].configure(image="")
+        buttons[i][j]["content"] = -1
+        return
+
+    image = ImageTk.PhotoImage(Image.open("./images/flag.png"))
+    buttons[i][j]["button"].configure(image=image, compound=tk.CENTER)
+    buttons[i][j]["button"].image = image
+    buttons[i][j]["content"] = -2
