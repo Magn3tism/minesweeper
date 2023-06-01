@@ -33,10 +33,16 @@ def hit_mine():
 def click_number(i, j):
     surrounding = get_surrounding_elements(buttons, i, j)
 
-    for btn in surrounding:
-        if (btn["content"] == 0):
-            btn["content"] = 100
+    if (buttons[i][j]["content"] == 0):
+        buttons[i][j]["content"] = 100
+        for btn in surrounding:
             btn["button"].invoke()
+        return
+
+    # for btn in surrounding:
+    #     if (btn["content"] == 0):
+    #         btn["content"] = 100
+    #         btn["button"].invoke()
 
 
 def left_click(i, j):
