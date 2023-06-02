@@ -3,6 +3,8 @@ from PIL import ImageTk, Image
 
 from config import buttons
 
+unclicked_cells = 13 * 6
+
 
 def get_surrounding_elements(matrix, row, col):
     rows = len(matrix)
@@ -31,31 +33,42 @@ def hit_mine():
 
 
 def click_number(i, j):
+    global unclicked_cells
+
+    if (unclicked_cells == 12):
+        print("Win!")
+        return
+
     surrounding = get_surrounding_elements(buttons, i, j)
+
+    print(surrounding)
+    print(unclicked_cells)
 
     if (buttons[i][j]["content"] == 0):
         buttons[i][j]["content"] = 100
         for btn in surrounding:
-            btn["button"].invoke()
+            if (btn["content"] < 100):
+                btn["button"].invoke()
         return
-
-    # for btn in surrounding:
-    #     if (btn["content"] == 0):
-    #         btn["content"] = 100
-    #         btn["button"].invoke()
 
 
 def left_click(i, j):
+    global unclicked_cells
+
     value = buttons[i][j]["content"]
     if (value == -2):
         return
 
     if (value == 100 or value == 0):
+        if (value == 0):
+            unclicked_cells -= 1
         buttons[i][j]["button"].configure(style="secondary.TButton")
         click_number(i, j)
         return
 
-    if (value >= 0):
+    if (value > 0 and value < 100):
+        unclicked_cells -= 1
+        buttons[i][j]["content"] = 101
         image = ImageTk.PhotoImage(Image.open(f"./images/{value}.png"))
         click_number(i, j)
     else:
