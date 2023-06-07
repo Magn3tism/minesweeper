@@ -1,4 +1,4 @@
-from board import window
+from board import app
 
-# Start main loop
-window.mainloop()
+# Execute the app
+app.exec()
