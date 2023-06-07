@@ -5,6 +5,7 @@ from config import buttons
 
 unclicked_cells = 13 * 6
 
+backup = {}
 
 def get_surrounding_elements(matrix, row, col):
     rows = len(matrix)
@@ -82,10 +83,11 @@ def left_click(i, j):
 def right_click(i, j):
     if (buttons[i][j]["content"] == -2):
         buttons[i][j]["button"].configure(image="")
-        buttons[i][j]["content"] = -1
+        buttons[i][j]["content"] = backup[f"${i}${j}"]
         return
 
     image = ImageTk.PhotoImage(Image.open("./images/flag.png"))
     buttons[i][j]["button"].configure(image=image, compound=tk.CENTER)
     buttons[i][j]["button"].image = image
+    backup[f"${i}${j}"] = buttons[i][j]["content"]
     buttons[i][j]["content"] = -2
