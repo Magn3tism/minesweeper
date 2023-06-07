@@ -72,7 +72,7 @@ def left_click(i, j):
         buttons[i][j]["content"] = 101
         image = ImageTk.PhotoImage(Image.open(f"./images/{value}.png"))
         click_number(i, j)
-    else:
+    elif (value == -1):
         image = ImageTk.PhotoImage(Image.open("./images/mine.png"))
         hit_mine()
 
